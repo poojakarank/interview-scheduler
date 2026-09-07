@@ -131,28 +131,6 @@ export default function Sidebar({ onOpenScheduleModal }) {
 
       {/* Bottom Section: Promo Card + Profile Widget */}
       <div className="p-3 pt-0 space-y-3">
-        {/* Promo / Automation Card */}
-        <div className="p-3.5 rounded-lg border border-gray-200 bg-white shadow-2xs">
-          <div className="h-7 w-7 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center mb-2 border border-indigo-100">
-            <Sparkles className="h-3.5 w-3.5" />
-          </div>
-          <h5 className="text-xs font-bold text-gray-900 leading-tight">
-            Automate your interview scheduling
-          </h5>
-          <p className="text-[11px] text-gray-500 mt-1 leading-normal">
-            Let AI find the optimal conflict-free time for your interviews.
-          </p>
-          <button
-            onClick={() => {
-              if (onOpenScheduleModal) onOpenScheduleModal();
-              else navigate('/calendar');
-            }}
-            className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-700"
-          >
-            <span>Learn More</span>
-            <ArrowRight className="h-3 w-3" />
-          </button>
-        </div>
 
         {/* User Profile Widget */}
         <div className="relative" ref={profileRef}>

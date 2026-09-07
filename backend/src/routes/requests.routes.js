@@ -351,10 +351,9 @@ router.post(
       const end = new Date(slot.endUtc);
       if (end <= start) throw badRequest('Each slot must end after it starts');
 
-      // Rounds run in whole hours, so the times offered have to be too.
       const minutes = (end - start) / 60000;
-      if (minutes % 60 !== 0) {
-        throw badRequest('Each time slot must be a whole number of hours');
+      if (minutes < 15) {
+        throw badRequest('Each slot must be at least 15 minutes long');
       }
       // The job states when interviews for the role may happen; a slot outside
       // it can never be booked, so reject it here rather than silently dropping

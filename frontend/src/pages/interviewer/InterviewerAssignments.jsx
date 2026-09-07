@@ -66,7 +66,7 @@ export default function InterviewerAssignments() {
   }
 
   async function acceptOffer(offerId, slot) {
-    setOfferBusy(offerId);
+    setOfferBusy(`${offerId}:${slot.startUtc}`);
     try {
       await api.postOnce(`/offers/${offerId}/accept`, { startUtc: slot.startUtc, endUtc: slot.endUtc });
       setActionSuccess(`Booked for ${slot.label}. It is on your calendar now.`);
@@ -408,17 +408,23 @@ export default function InterviewerAssignments() {
                   Pick a time that works
                 </span>
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {(o.slots || []).map((slot) => (
-                    <button
-                      key={slot.startUtc}
-                      onClick={() => acceptOffer(o.id, slot)}
-                      disabled={Boolean(offerBusy)}
-                      className="px-3.5 py-2 rounded-xl border border-emerald-200 bg-emerald-50 text-xs font-bold text-emerald-800
-                                 hover:bg-emerald-100 hover:border-emerald-400 disabled:opacity-40 transition shadow-xs"
-                    >
-                      {offerBusy === o.id ? 'Booking...' : slot.label}
-                    </button>
-                  ))}
+                  {(o.slots || []).map((slot) => {
+                    const isBookingThis = offerBusy === `${o.id}:${slot.startUtc}`;
+                    return (
+                      <button
+                        key={slot.startUtc}
+                        onClick={() => acceptOffer(o.id, slot)}
+                        disabled={Boolean(offerBusy)}
+                        className={`px-3.5 py-2 rounded-xl border text-xs font-bold transition shadow-xs ${
+                          isBookingThis
+                            ? 'bg-emerald-600 text-white border-emerald-600 animate-pulse'
+                            : 'border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 hover:border-emerald-400 disabled:opacity-40'
+                        }`}
+                      >
+                        {isBookingThis ? 'Booking...' : slot.label}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <button
